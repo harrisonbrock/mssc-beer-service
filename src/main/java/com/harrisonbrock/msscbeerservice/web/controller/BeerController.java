@@ -1,6 +1,7 @@
 package com.harrisonbrock.msscbeerservice.web.controller;
 
 import com.harrisonbrock.msscbeerservice.web.model.BeerDto;
+import com.harrisonbrock.msscbeerservice.web.model.BeerStyle;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,15 @@ public class BeerController {
     @GetMapping("/{beerId}")
     public ResponseEntity<BeerDto> getById(@PathVariable UUID beerId) {
 
-        // TODO impl
-        return new ResponseEntity<>(BeerDto.builder().build(), HttpStatus.OK);
+        System.out.println("Get Beer by id");
+        // TODO: Impl
+        return new ResponseEntity<>(BeerDto.builder()
+                .id(beerId)
+                .beerName("TesBeer")
+                .beerStyle(BeerStyle.SAISON)
+                .upc(null)
+                .build(),
+                HttpStatus.OK);
     }
 
     @PostMapping()
