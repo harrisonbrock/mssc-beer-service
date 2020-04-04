@@ -1,5 +1,7 @@
 package com.harrisonbrock.msscbeerservice.web.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.harrisonbrock.msscbeerservice.web.model.BeerDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,6 +20,8 @@ class BeerControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     void getBeerById() throws Exception {
@@ -25,6 +29,17 @@ class BeerControllerTest {
         mockMvc.perform(get("/api/v1/beer/" + UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    void saveNewBeer() throws Exception {
+        BeerDto beerDto = BeerDto.builder().build();
+        String beerDtoJson = objectMapper.writeValueAsString(beerDto);
+
+        mockMvc.perform(post("/api/v1/beer")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(beerDtoJson))
+                .andExpect(status().isCreated());
     }
 
 }
